@@ -9,7 +9,7 @@ import numpy as np
 import cvbase as cvb
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from mmcv import ProgressBar
+#from mmcv import ProgressBar
 
 import utils.image as im
 from models import resnet_models
@@ -97,7 +97,7 @@ def test_initial_stage(args):
                             [('model', dfc_resnet)], strict=True)
     print('Load Pretrained Model from', args.PRETRAINED_MODEL)
 
-    task_bar = ProgressBar(eval_dataset.__len__())
+    #task_bar = ProgressBar(eval_dataset.__len__())
     for i, item in enumerate(eval_dataloader):
         with torch.no_grad():
             input_x = item[0].cuda()
@@ -115,7 +115,7 @@ def test_initial_stage(args):
                 os.makedirs(output_basedir)
             res_save = res_complete[0].permute(1, 2, 0).contiguous().cpu().data.numpy()
             cvb.write_flow(res_save, output_file)
-            task_bar.update()
+            #task_bar.update()
     sys.stdout.write('\n')
     dfc_resnet = None
     torch.cuda.empty_cache()
@@ -147,7 +147,7 @@ def test_refine_stage(args):
 
     print('Load Pretrained Model from', args.PRETRAINED_MODEL)
 
-    task_bar = ProgressBar(eval_dataset.__len__())
+    #task_bar = ProgressBar(eval_dataset.__len__())
     for i, item in enumerate(eval_dataloader):
         with torch.no_grad():
             input_x = item[0].cuda()
@@ -176,7 +176,7 @@ def test_refine_stage(args):
             cvb.write_flow(res_save_f, output_file_f)
             res_save_r = res_complete_r[0].permute(1, 2, 0).contiguous().cpu().data.numpy()
             cvb.write_flow(res_save_r, output_file_r)
-            task_bar.update()
+            #task_bar.update()
     sys.stdout.write('\n')
     dfc_resnet = None
     torch.cuda.empty_cache()
