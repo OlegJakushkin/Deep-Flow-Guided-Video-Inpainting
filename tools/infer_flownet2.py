@@ -4,7 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 import torch
 import cvbase as cvb
 from torch.utils.data import DataLoader
-from mmcv import ProgressBar
+#from mmcv import ProgressBar
 
 from models import FlowNet2
 from dataset.FlowInfer import FlowInfer
@@ -44,7 +44,7 @@ def infer(args):
 
     dataset_ = FlowInfer(args.data_list, size=args.img_size)
     dataloader_ = DataLoader(dataset_, batch_size=1, shuffle=False)
-    task_bar = ProgressBar(dataset_.__len__())
+    #task_bar = ProgressBar(dataset_.__len__())
 
     for i, (f1, f2, output_path_) in enumerate(dataloader_):
         f1 = f1.to(device)
@@ -60,7 +60,7 @@ def infer(args):
 
         flow_numpy = flow[0].permute(1, 2, 0).data.cpu().numpy()
         cvb.write_flow(flow_numpy, output_path)
-        task_bar.update()
+        #task_bar.update()
     sys.stdout.write('\n')
     print('FlowNet2 Inference has been finished~!')
     print('Extracted Flow has been save in', output_file)
